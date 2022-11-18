@@ -3,14 +3,14 @@ using System;
 
 namespace MiniCRM.Domain.Models
 {
-    public class Employee : NotifyPropertyObject
+    public class Employee : NotifyPropertyObject, IEquatable<Employee>
     {
         private string surname;
         private string name;
         private string middleName;
         private DateTime? birthday;
         private Gender gender;
-        private Guid departmentId;
+        private Guid? departmentId;
         private Department department;
 
         public Guid Id { get; set; }
@@ -59,7 +59,7 @@ namespace MiniCRM.Domain.Models
                 OnPropertyChanged();
             }
         }
-        public Guid DepartmentId
+        public Guid? DepartmentId
         {
             get => departmentId;
             set
@@ -78,5 +78,22 @@ namespace MiniCRM.Domain.Models
             }
         }
 
+        public bool Equals(Employee other)
+        {
+            return Id == other.Id;
+        }
+        public override bool Equals(object obj)
+        {
+            if (obj.GetType() != this.GetType())
+                return false;
+            if (ReferenceEquals(this, obj))
+                return true;
+            return Equals((Employee)obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return Id.GetHashCode();
+        }
     }
 }

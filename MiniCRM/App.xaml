@@ -18,9 +18,12 @@
             <Style TargetType="ComboBox">
                 <Setter Property="Margin" Value="3"/>
             </Style>
-            <!--<Style TargetType="TextBlock">
+            <Style TargetType="DatePicker">
                 <Setter Property="Margin" Value="3"/>
-            </Style>-->
+            </Style>
+            <Style TargetType="Label">
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

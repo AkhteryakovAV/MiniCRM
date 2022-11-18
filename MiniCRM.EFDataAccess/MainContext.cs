@@ -23,12 +23,6 @@ namespace MiniCRM.EFDataAccess
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
 
-            modelBuilder.Entity<Department>()
-                .HasMany(d => d.Staff)
-                .WithRequired(e => e.Department)
-                .HasForeignKey(e=>e.DepartmentId)
-                .WillCascadeOnDelete(false);
-
             modelBuilder.Entity<Tag>()
                 .HasMany(t => t.Orders)
                 .WithMany(o => o.Tags);

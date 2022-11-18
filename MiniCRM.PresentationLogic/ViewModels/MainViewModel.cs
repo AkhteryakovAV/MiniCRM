@@ -1,4 +1,5 @@
 ﻿using MiniCRM.Domain;
+using MiniCRM.Domain.Collections;
 using MiniCRM.Domain.Models;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,7 @@ namespace MiniCRM.PresentationLogic.ViewModels
 
         private RelayCommand _showEmployeesCommand;
         private RelayCommand _showDepartmentsCommand;
+        private RelayCommand _createOrderCommand;
 
         public MainViewModel(INavigationService navigationService,
                              IRepository<Employee> employeeRepository,
@@ -30,11 +32,23 @@ namespace MiniCRM.PresentationLogic.ViewModels
             _departmentRepository = departmentRepository ?? throw new ArgumentNullException(nameof(departmentRepository));
             _orderRepository = orderRepository ?? throw new ArgumentNullException(nameof(orderRepository));
             _tagRepository = tagRepository ?? throw new ArgumentNullException(nameof(tagRepository));
+
+            Orders = new NotifyCollection<Order>(_orderRepository.GetAll());
+            Tags = new NotifyCollection<Tag>(_tagRepository.GetAll());
         }
+
+        public NotifyCollection<Order> Orders { get; set; }
+        public NotifyCollection<Tag> Tags { get; set; }
 
         public RelayCommand ShowEmployeesCommand => _showEmployeesCommand
             ?? (_showEmployeesCommand = new RelayCommand(obj => _navigationService.ShowWindow<EmployeesViewModel>()));
         public RelayCommand ShowDepartmentsCommand => _showDepartmentsCommand
                ?? (_showDepartmentsCommand = new RelayCommand(obj => _navigationService.ShowWindow<DepartmentsViewModel>()));
+        public RelayCommand CreateOrderCommand => _createOrderCommand
+               ?? (_createOrderCommand = new RelayCommand(obj =>
+               {
+                   _navigationService.ShowWindow<NewOrderViewModel>();
+               }));
+
     }
 }

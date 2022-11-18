@@ -1,6 +1,8 @@
 ﻿using MiniCRM.Domain;
+using MiniCRM.Domain.Events;
 using MiniCRM.Domain.Models;
 using MiniCRM.EFDataAccess;
+using MiniCRM.EFDataAccess.Repositories;
 using MiniCRM.PresentationLogic;
 using MiniCRM.PresentationLogic.ViewModels;
 using MiniCRM.Views;
@@ -21,7 +23,7 @@ namespace MiniCRM
     public partial class App : Application, INavigationService
     {
         private readonly SplashScreen splashScreen;
-        private readonly MainContext context;
+        private readonly MainContext mainContext;
 
         private readonly IRepository<Employee> employeeRepository;
         private readonly IRepository<Department> departmentRepository;
@@ -30,22 +32,29 @@ namespace MiniCRM
 
         private readonly INavigationService navigationService;
 
+        public event EventHandler<EmployeeEventArgs> EmployeeAdded;
+
         public App()
         {
             splashScreen = new SplashScreen();
             splashScreen.Show();
 
             var connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-            MainContext mainContext = new MainContext(connectionString);
+            mainContext = new MainContext(connectionString);
 
-            IRepository<Employee> employeeRepository = new EFRepository<Employee>(mainContext);
-            IRepository<Department> departmentRepository = new EFRepository<Department>(mainContext);
-            IRepository<Order> orderRepository = new EFRepository<Order>(mainContext);
-            IRepository<Tag> tagRepository = new EFRepository<Tag>(mainContext);
+            employeeRepository = new EmployeeRepository(mainContext);
+            departmentRepository = new EFRepository<Department>(mainContext);
+            orderRepository = new EFRepository<Order>(mainContext);
+            tagRepository = new EFRepository<Tag>(mainContext);
 
             navigationService = this;
         }
 
+        protected override void OnExit(ExitEventArgs e)
+        {
+            mainContext.Dispose();
+            base.OnExit(e);
+        }
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
@@ -68,10 +77,10 @@ namespace MiniCRM
             {
                 return new MainView(
                     new MainViewModel(
-                        navigationService, 
-                        employeeRepository, 
+                        navigationService,
+                        employeeRepository,
                         departmentRepository,
-                        orderRepository, 
+                        orderRepository,
                         tagRepository));
             }
             else if (viewModelType == typeof(DepartmentsViewModel))
@@ -80,11 +89,30 @@ namespace MiniCRM
             }
             else if (viewModelType == typeof(EmployeesViewModel))
             {
-                return new EmployeesView(new EmployeesViewModel());
+                EmployeesViewModel employeesViewModel = new EmployeesViewModel(navigationService, employeeRepository);
+                EmployeeAdded += employeesViewModel.EmployeeAdded;
+                return new EmployeesView(employeesViewModel);
             }
+            else if (viewModelType == typeof(CreateEditEmployeeViewModel))
+            {
+                Employee employee = null;
+                if (parametr is Employee)
+                    employee = (Employee)parametr;
 
+                CreateEditEmployeeViewModel newEmployeeView = new CreateEditEmployeeViewModel(employeeRepository, employee);
+                newEmployeeView.EmployeeAdded += OnEmployeeAdded;
+                return new CreateEditEmployeeView(newEmployeeView);
+            }
+            else if (viewModelType == typeof(NewOrderViewModel))
+            {
+                return new NewOrderView(new NewOrderViewModel());
+            }
             return null;
         }
 
+        private void OnEmployeeAdded(object sender, EmployeeEventArgs e)
+        {
+            EmployeeAdded?.Invoke(sender, e);
+        }
     }
 }

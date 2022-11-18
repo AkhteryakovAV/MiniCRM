@@ -10,8 +10,10 @@
         Title="CRM" Height="450" Width="350" MinWidth="350"
         Icon="{DynamicResource AppIcon}" WindowStartupLocation="CenterScreen"
         >
-    <StackPanel>
-        <StackPanel Orientation="Horizontal">
+    <DockPanel LastChildFill="True">
+        <StackPanel DockPanel.Dock="Top" 
+                    Orientation="Horizontal"
+                    >
             <Button Content="Сотрудники"
                     Command="{Binding ShowEmployeesCommand}"
                     />
@@ -19,16 +21,19 @@
                     Command="{Binding ShowDepartmentsCommand}"
                     />
             <Button Content="Новый заказ"
-                    Command="{Binding ShowDepartmentsCommand}"
+                    Command="{Binding CreateOrderCommand}"
                     />
         </StackPanel>
-        <ComboBox HorizontalAlignment="Left"/>
-        <DataGrid>
+    
+        <DataGrid ItemsSource="{Binding Orders}"
+                  AutoGenerateColumns="False"
+                  BorderThickness="0,1,0,0"
+                  >
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Название"/>
                 <DataGridTextColumn Header="Сотрудник"/>
                 <DataGridTextColumn Header="Тэги" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
-    </StackPanel>
+    </DockPanel>
 </Window>

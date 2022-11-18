@@ -5,6 +5,7 @@ using MiniCRM.EFDataAccess;
 using MiniCRM.EFDataAccess.Repositories;
 using MiniCRM.PresentationLogic;
 using MiniCRM.PresentationLogic.ViewModels;
+using MiniCRM.Services;
 using MiniCRM.Views;
 using System;
 using System.Collections.Generic;
@@ -31,6 +32,7 @@ namespace MiniCRM
         private readonly IRepository<Tag> tagRepository;
 
         private readonly INavigationService navigationService;
+        private readonly IDialogService dialogService;
 
         public event EventHandler<EmployeeEventArgs> EmployeeAdded;
 
@@ -48,6 +50,7 @@ namespace MiniCRM
             tagRepository = new EFRepository<Tag>(mainContext);
 
             navigationService = this;
+            dialogService = new DialogService();
         }
 
         protected override void OnExit(ExitEventArgs e)
@@ -89,7 +92,9 @@ namespace MiniCRM
             }
             else if (viewModelType == typeof(EmployeesViewModel))
             {
-                EmployeesViewModel employeesViewModel = new EmployeesViewModel(navigationService, employeeRepository);
+                EmployeesViewModel employeesViewModel = new EmployeesViewModel(navigationService,
+                                                                               employeeRepository,
+                                                                               dialogService);
                 EmployeeAdded += employeesViewModel.EmployeeAdded;
                 return new EmployeesView(employeesViewModel);
             }

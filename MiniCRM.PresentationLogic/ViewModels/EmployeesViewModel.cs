@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace MiniCRM.PresentationLogic.ViewModels
 {
@@ -14,15 +15,18 @@ namespace MiniCRM.PresentationLogic.ViewModels
     {
         private readonly INavigationService _navigationService;
         private readonly IRepository<Employee> _employeeRepository;
+        private readonly IDialogService _dialogService;
         private RelayCommand _editCommand;
         private RelayCommand _deleteCommand;
         private RelayCommand _createEmployeeCommand;
 
         public EmployeesViewModel(INavigationService navigationService,
-                                  IRepository<Employee> employeeRepository)
+                                  IRepository<Employee> employeeRepository,
+                                  IDialogService dialogService)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
             _employeeRepository = employeeRepository ?? throw new ArgumentNullException(nameof(employeeRepository));
+            _dialogService = dialogService ?? throw new ArgumentNullException(nameof(dialogService));
 
             Employees = new NotifyCollection<Employee>(_employeeRepository.GetAll());
         }
@@ -39,8 +43,11 @@ namespace MiniCRM.PresentationLogic.ViewModels
         {
             if (parametr is Employee employee)
             {
-                _employeeRepository.Delete(employee.Id);
-                Employees.Remove(employee);
+                if (_dialogService.ShowMessageQuestion("Удалить сотрудника?") == MessageBoxResult.Yes)
+                {
+                    _employeeRepository.Delete(employee.Id);
+                    Employees.Remove(employee);
+                }
             }
         }));
 

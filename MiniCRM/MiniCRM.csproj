@@ -68,6 +68,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="MarkupExtensions\EnumValues.cs" />
+    <Compile Include="Services\DialogService.cs" />
     <Compile Include="Views\CreateEditEmployeeView.xaml.cs">
       <DependentUpon>CreateEditEmployeeView.xaml</DependentUpon>
     </Compile>

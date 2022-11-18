@@ -19,7 +19,7 @@ namespace MiniCRM.PresentationLogic.ViewModels
         private RelayCommand _editCommand;
         private RelayCommand _deleteCommand;
         private RelayCommand _createEmployeeCommand;
-
+        
         public EmployeesViewModel(INavigationService navigationService,
                                   IRepository<Employee> employeeRepository,
                                   IDialogService dialogService)

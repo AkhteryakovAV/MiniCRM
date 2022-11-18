@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MiniCRM.Domain.Models
 {
-    public class Department : NotifyPropertyObject
+    public class Department : NotifyPropertyObject, IEquatable<Department>
     {
         private string name;
-        private Guid chiefId;
+        private Guid? chiefId;
         private Employee chief;
 
         public Guid Id { get; set; }
@@ -20,7 +19,7 @@ namespace MiniCRM.Domain.Models
                 OnPropertyChanged();
             }
         }
-        public Guid ChiefId
+        public Guid? ChiefId
         {
             get => chiefId;
             set
@@ -29,7 +28,6 @@ namespace MiniCRM.Domain.Models
                 OnPropertyChanged(nameof(Chief));
             }
         }
-        [NotMapped]
         public Employee Chief
         {
             get => chief;
@@ -40,5 +38,25 @@ namespace MiniCRM.Domain.Models
             }
         }
         public List<Employee> Staff { get; set; }
+
+        public bool Equals(Department other)
+        {
+            return Id == other.Id;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj.GetType() != this.GetType())
+                return false;
+            if (ReferenceEquals(this, obj))
+                return true;
+            return Equals((Department)obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return Id.GetHashCode();
+        }
+
     }
 }

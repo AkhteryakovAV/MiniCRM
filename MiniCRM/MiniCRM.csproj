@@ -69,6 +69,9 @@
     </ApplicationDefinition>
     <Compile Include="MarkupExtensions\EnumValues.cs" />
     <Compile Include="Services\DialogService.cs" />
+    <Compile Include="Views\CreateEditDepartmentView.xaml.cs">
+      <DependentUpon>CreateEditDepartmentView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CreateEditEmployeeView.xaml.cs">
       <DependentUpon>CreateEditEmployeeView.xaml</DependentUpon>
     </Compile>
@@ -95,7 +98,15 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Templates\DepartmentTemplate.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Templates\EmployeeTemplate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CreateEditDepartmentView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -7,10 +7,26 @@
         xmlns:vm="clr-namespace:MiniCRM.PresentationLogic.ViewModels;assembly=MiniCRM.PresentationLogic"
         d:DataContext="{d:DesignInstance Type=vm:DepartmentsViewModel, IsDesignTimeCreatable=False}"
         mc:Ignorable="d"
-        Title="Подразделения" Height="450" Width="800"
+        Title="Подразделения" Height="500" Width="350"
         Icon="{DynamicResource AppIcon}" WindowStartupLocation="CenterScreen"
         >
-    <Grid>
-        
-    </Grid>
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Templates/DepartmentTemplate.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <DockPanel>
+        <Button DockPanel.Dock="Top"
+                Content="Новое подразделение"
+                HorizontalAlignment="Left"
+                Command="{Binding CreateDepartmentCommand}"
+                />
+        <ListView ItemsSource="{Binding Departments}"
+                  ItemTemplate="{StaticResource DepartmentItemTemplate }"
+                  HorizontalContentAlignment="Stretch"
+                  />
+
+    </DockPanel>
 </Window>

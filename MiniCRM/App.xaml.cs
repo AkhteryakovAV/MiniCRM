@@ -35,6 +35,7 @@ namespace MiniCRM
         private readonly IDialogService dialogService;
 
         public event EventHandler<EmployeeEventArgs> EmployeeAdded;
+        public event EventHandler<DepartmentEventArgs> DepartmentAdded;
 
         public App()
         {
@@ -45,7 +46,7 @@ namespace MiniCRM
             mainContext = new MainContext(connectionString);
 
             employeeRepository = new EmployeeRepository(mainContext);
-            departmentRepository = new EFRepository<Department>(mainContext);
+            departmentRepository = new DepartmentRepository(mainContext);
             orderRepository = new EFRepository<Order>(mainContext);
             tagRepository = new EFRepository<Tag>(mainContext);
 
@@ -88,7 +89,21 @@ namespace MiniCRM
             }
             else if (viewModelType == typeof(DepartmentsViewModel))
             {
-                return new DepartmentsView(new DepartmentsViewModel());
+                DepartmentsViewModel departmentsViewModel = new DepartmentsViewModel(navigationService,
+                                                                                     departmentRepository,
+                                                                                     dialogService);
+                DepartmentAdded += departmentsViewModel.DepartmentAdded;
+                return new DepartmentsView(departmentsViewModel);
+            }
+            else if (viewModelType == typeof(CreateEditDepartmentViewModel))
+            {
+                Department department = null;
+                if (parametr is Department)
+                    department = (Department)parametr;
+
+                CreateEditDepartmentViewModel createEditDepartmentViewModel = new CreateEditDepartmentViewModel(departmentRepository, department);
+                createEditDepartmentViewModel.DepartmentAdded += OnDepartmentAdded;
+                return new CreateEditDepartmentView(createEditDepartmentViewModel);
             }
             else if (viewModelType == typeof(EmployeesViewModel))
             {
@@ -104,15 +119,20 @@ namespace MiniCRM
                 if (parametr is Employee)
                     employee = (Employee)parametr;
 
-                CreateEditEmployeeViewModel newEmployeeView = new CreateEditEmployeeViewModel(employeeRepository, employee);
-                newEmployeeView.EmployeeAdded += OnEmployeeAdded;
-                return new CreateEditEmployeeView(newEmployeeView);
+                CreateEditEmployeeViewModel createEditEmployeeViewModel = new CreateEditEmployeeViewModel(employeeRepository, employee);
+                createEditEmployeeViewModel.EmployeeAdded += OnEmployeeAdded;
+                return new CreateEditEmployeeView(createEditEmployeeViewModel);
             }
             else if (viewModelType == typeof(NewOrderViewModel))
             {
                 return new NewOrderView(new NewOrderViewModel());
             }
             return null;
+        }
+
+        private void OnDepartmentAdded(object sender, DepartmentEventArgs e)
+        {
+            DepartmentAdded?.Invoke(sender, e);
         }
 
         private void OnEmployeeAdded(object sender, EmployeeEventArgs e)

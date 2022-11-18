@@ -9,14 +9,14 @@
         xmlns:enums="clr-namespace:MiniCRM.Domain.Enums;assembly=MiniCRM.Domain"
         d:DataContext="{d:DesignInstance Type=vm:CreateEditEmployeeViewModel, IsDesignTimeCreatable=False}"
         mc:Ignorable="d"
-        Title="Нвый сотрудник" Width="350"
+        Title="Новый сотрудник" Width="350"
         Icon="{DynamicResource AppIcon}" 
         WindowStartupLocation="CenterScreen"
         SizeToContent="Height"
         >
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>

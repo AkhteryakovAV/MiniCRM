@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enums\Gender.cs" />
+    <Compile Include="Events\DepartmentEventArgs.cs" />
     <Compile Include="Events\EmployeeEventArgs.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="Models\Department.cs" />

@@ -1,5 +1,7 @@
 ﻿using MiniCRM.Domain.Enums;
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace MiniCRM.Domain.Models
 {
@@ -21,6 +23,7 @@ namespace MiniCRM.Domain.Models
             {
                 surname = value;
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(AbbreviatedName));
             }
         }
         public string Name
@@ -30,6 +33,7 @@ namespace MiniCRM.Domain.Models
             {
                 name = value;
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(AbbreviatedName));
             }
         }
         public string MiddleName
@@ -39,6 +43,7 @@ namespace MiniCRM.Domain.Models
             {
                 middleName = value;
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(AbbreviatedName));
             }
         }
         public DateTime? Birthday
@@ -77,11 +82,47 @@ namespace MiniCRM.Domain.Models
                 OnPropertyChanged();
             }
         }
+        [NotMapped]
+        public string AbbreviatedName
+        {
+            get
+            {
+                string result = string.Empty;
+                if (!string.IsNullOrEmpty(Surname))
+                {
+                    result += Surname;
+                    if (!string.IsNullOrEmpty(Name))
+                    {
+                        result += " " + Name.First() + ".";
+
+                        if (!string.IsNullOrEmpty(MiddleName))
+                        {
+                            result += MiddleName.First() + ".";
+                        }
+                    }
+                }
+                else if (!string.IsNullOrEmpty(Name))
+                {
+                    result += Name;
+
+                    if (!string.IsNullOrEmpty(Name))
+                    {
+                        result += " " + Name.First() + ".";
+                    }
+                }
+                else
+                {
+                    result += Name;
+                }
+                return result;
+            }
+        }
 
         public bool Equals(Employee other)
         {
             return Id == other.Id;
         }
+
         public override bool Equals(object obj)
         {
             if (obj.GetType() != this.GetType())

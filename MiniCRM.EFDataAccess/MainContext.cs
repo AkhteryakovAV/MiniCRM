@@ -1,9 +1,5 @@
-﻿using MiniCRM.Domain.Enums;
-using MiniCRM.Domain.Models;
-using System;
+﻿using MiniCRM.Domain.Models;
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
-using System.IO;
 using System.Linq;
 
 
@@ -22,6 +18,11 @@ namespace MiniCRM.EFDataAccess
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Department>()
+                .HasMany(p => p.Staff)
+                .WithOptional(p => p.Department)
+                .HasForeignKey(s => s.DepartmentId)
+                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Tag>()
                 .HasMany(t => t.Orders)
@@ -29,6 +30,9 @@ namespace MiniCRM.EFDataAccess
 
             base.OnModelCreating(modelBuilder);
         }
-
+        public bool IsNew<TEntity>(TEntity entity) where TEntity : class
+        {
+            return !this.Set<TEntity>().Local.Any(e => e == entity);
+        }
     }
 }

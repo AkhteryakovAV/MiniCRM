@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace MiniCRM.Domain.Models
 {
-    public class Tag : NotifyPropertyObject
+    public class Tag : NotifyPropertyObject, IEquatable<Tag>
     {
         private string name;
 
@@ -22,6 +22,25 @@ namespace MiniCRM.Domain.Models
             }
         }
         public List<Order> Orders { get; set; }
+
+        public bool Equals(Tag other)
+        {
+            return Id == other.Id;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj.GetType() != this.GetType())
+                return false;
+            if (ReferenceEquals(this, obj))
+                return true;
+            return Equals((Tag)obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return Id.GetHashCode();
+        }
 
     }
 }

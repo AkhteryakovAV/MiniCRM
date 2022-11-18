@@ -101,7 +101,10 @@ namespace MiniCRM
                 if (parametr is Department)
                     department = (Department)parametr;
 
-                CreateEditDepartmentViewModel createEditDepartmentViewModel = new CreateEditDepartmentViewModel(departmentRepository, department);
+                CreateEditDepartmentViewModel createEditDepartmentViewModel = 
+                    new CreateEditDepartmentViewModel(departmentRepository,
+                                                      employeeRepository,
+                                                      department);
                 createEditDepartmentViewModel.DepartmentAdded += OnDepartmentAdded;
                 return new CreateEditDepartmentView(createEditDepartmentViewModel);
             }
@@ -119,7 +122,7 @@ namespace MiniCRM
                 if (parametr is Employee)
                     employee = (Employee)parametr;
 
-                CreateEditEmployeeViewModel createEditEmployeeViewModel = new CreateEditEmployeeViewModel(employeeRepository, employee);
+                CreateEditEmployeeViewModel createEditEmployeeViewModel = new CreateEditEmployeeViewModel(employeeRepository, departmentRepository, employee);
                 createEditEmployeeViewModel.EmployeeAdded += OnEmployeeAdded;
                 return new CreateEditEmployeeView(createEditEmployeeViewModel);
             }

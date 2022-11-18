@@ -1,4 +1,5 @@
 ﻿using MiniCRM.Domain;
+using MiniCRM.Domain.Collections;
 using MiniCRM.Domain.Enums;
 using MiniCRM.Domain.Events;
 using MiniCRM.Domain.Models;
@@ -16,8 +17,13 @@ namespace MiniCRM.PresentationLogic.ViewModels
         private Employee _employee;
         private RelayCommand _saveEmployeeCommand;
         private bool _editMode;
-        public CreateEditEmployeeViewModel(IRepository<Employee> employeeRepository, Employee employee)
+        public CreateEditEmployeeViewModel(IRepository<Employee> employeeRepository, IRepository<Department> departmentRepository, Employee employee)
         {
+            if (departmentRepository is null)
+            {
+                throw new ArgumentNullException(nameof(departmentRepository));
+            }
+
             _employeeRepository = employeeRepository ?? throw new ArgumentNullException(nameof(employeeRepository));
             if (employee == null)
                 _employee = new Employee() { Id = Guid.NewGuid() };
@@ -26,9 +32,11 @@ namespace MiniCRM.PresentationLogic.ViewModels
                 _employee = employee;
                 _editMode = true;
             }
+            Departments = new NotifyCollection<Department>(departmentRepository.GetAll());
         }
 
         public event EventHandler<EmployeeEventArgs> EmployeeAdded;
+        public NotifyCollection<Department> Departments { get; set; }
 
         public string Surname
         {

@@ -67,6 +67,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\GenderToTextConverter.cs" />
     <Compile Include="MarkupExtensions\EnumValues.cs" />
     <Compile Include="Services\DialogService.cs" />
     <Compile Include="Views\CreateEditDepartmentView.xaml.cs">
@@ -162,9 +163,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Converters\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\MiniCRM.Domain\MiniCRM.Domain.csproj">
       <Project>{5190E779-6B42-4F5B-8435-B22038BAB742}</Project>

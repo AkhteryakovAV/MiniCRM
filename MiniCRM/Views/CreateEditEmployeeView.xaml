@@ -7,6 +7,7 @@
         xmlns:markupExtensions="clr-namespace:MiniCRM.MarkupExtensions"
         xmlns:vm="clr-namespace:MiniCRM.PresentationLogic.ViewModels;assembly=MiniCRM.PresentationLogic"
         xmlns:enums="clr-namespace:MiniCRM.Domain.Enums;assembly=MiniCRM.Domain"
+        xmlns:converters="clr-namespace:MiniCRM.Converters"
         d:DataContext="{d:DesignInstance Type=vm:CreateEditEmployeeViewModel, IsDesignTimeCreatable=False}"
         mc:Ignorable="d"
         Title="Новый сотрудник" Width="350"
@@ -14,6 +15,9 @@
         WindowStartupLocation="CenterScreen"
         SizeToContent="Height"
         >
+    <Window.Resources>
+        <converters:GenderToTextConverter x:Key="GenderToTextConverter"/>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -40,9 +44,18 @@
         <ComboBox Grid.Column="1" Grid.Row="4"
                   ItemsSource="{markupExtensions:EnumValues {x:Type enums:Gender}}"
                   SelectedItem="{Binding Gender}"
-                  />
+                  >
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Converter={StaticResource GenderToTextConverter}}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
         <Label Grid.Row="5" Content="Подразделение:"/>
-        <ComboBox Grid.Column="1" Grid.Row="5"/>
+        <ComboBox Grid.Column="1" Grid.Row="5"
+                  ItemsSource="{Binding Departments}"
+                  DisplayMemberPath="Name"
+                  SelectedItem="{Binding Department}"/>
         <Button Grid.Column="1"
                 Grid.Row="6"
                 Content="Сохранить"

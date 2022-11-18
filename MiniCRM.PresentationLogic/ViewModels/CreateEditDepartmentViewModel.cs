@@ -1,4 +1,5 @@
 ﻿using MiniCRM.Domain;
+using MiniCRM.Domain.Collections;
 using MiniCRM.Domain.Events;
 using MiniCRM.Domain.Models;
 using System;
@@ -16,8 +17,15 @@ namespace MiniCRM.PresentationLogic.ViewModels
         private RelayCommand _saveDepartmentCommand;
         private bool _editMode;
 
-        public CreateEditDepartmentViewModel(IRepository<Department> departmentRepository, Department department)
+        public CreateEditDepartmentViewModel(IRepository<Department> departmentRepository,
+                                             IRepository<Employee> employeeRepository,
+                                             Department department)
         {
+            if (employeeRepository is null)
+            {
+                throw new ArgumentNullException(nameof(employeeRepository));
+            }
+
             _departmentRepository = departmentRepository ?? throw new ArgumentNullException(nameof(departmentRepository));
             if (department == null)
                 _department = new Department() { Id = Guid.NewGuid() };
@@ -26,7 +34,10 @@ namespace MiniCRM.PresentationLogic.ViewModels
                 _department = department;
                 _editMode = true;
             }
+            Employees = new NotifyCollection<Employee>(employeeRepository.GetAll());
         }
+
+        public NotifyCollection<Employee> Employees { get; set; }
 
         public event EventHandler<DepartmentEventArgs> DepartmentAdded;
         public string Name

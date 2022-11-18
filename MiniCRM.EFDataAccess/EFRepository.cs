@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MiniCRM.Domain;
+﻿using MiniCRM.Domain;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 
 
@@ -26,7 +26,7 @@ namespace MiniCRM.EFDataAccess
             _context.SaveChanges();
         }
 
-        public void Delete(int id)
+        public void Delete(Guid id)
         {
             _ = entities.Remove(GetById(id));
             _ = _context.SaveChanges();
@@ -37,7 +37,7 @@ namespace MiniCRM.EFDataAccess
             return entities.ToArray();
         }
 
-        public TModel GetById(int id)
+        public TModel GetById(Guid id)
         {
             TModel entity = entities.Find(id) ?? throw new KeyNotFoundException($"Клиент с Id '{id}' не найден.");
             return entity;
@@ -45,7 +45,7 @@ namespace MiniCRM.EFDataAccess
 
         public void Update(TModel entity)
         {
-            _ = _context.Update(entity);
+            _context.Entry(entity).State = EntityState.Modified;
             _ = _context.SaveChanges();
         }
     }

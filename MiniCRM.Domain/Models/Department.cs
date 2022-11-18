@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MiniCRM.Domain.Models
 {
@@ -27,6 +29,7 @@ namespace MiniCRM.Domain.Models
                 OnPropertyChanged(nameof(Chief));
             }
         }
+        [NotMapped]
         public Employee Chief
         {
             get => chief;
@@ -36,5 +39,6 @@ namespace MiniCRM.Domain.Models
                 OnPropertyChanged();
             }
         }
+        public List<Employee> Staff { get; set; }
     }
 }

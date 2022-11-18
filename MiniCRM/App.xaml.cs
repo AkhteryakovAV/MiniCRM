@@ -18,7 +18,9 @@ namespace MiniCRM
     {
         public App()
         {
-            using(MainContext mainContext = new MainContext())
+            var connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+
+            using (MainContext mainContext = new MainContext(connectionString))
             {
                 IRepository<Employee> repository = new EFRepository<Employee>(mainContext);
                 Employee[] employees = repository.GetAll();

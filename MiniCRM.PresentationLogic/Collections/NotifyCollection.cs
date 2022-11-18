@@ -51,7 +51,7 @@ namespace MiniCRM.Domain.Collections
 
         private void Item_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, sender, sender));
         }
 
     }

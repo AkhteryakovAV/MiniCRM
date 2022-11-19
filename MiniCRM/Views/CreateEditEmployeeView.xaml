@@ -10,7 +10,7 @@
         xmlns:converters="clr-namespace:MiniCRM.Converters"
         d:DataContext="{d:DesignInstance Type=vm:CreateEditEmployeeViewModel, IsDesignTimeCreatable=False}"
         mc:Ignorable="d"
-        Title="Новый сотрудник" Width="350"
+        Title="Новый сотрудник" Width="350" MinWidth="350"
         Icon="{DynamicResource AppIcon}" 
         WindowStartupLocation="CenterScreen"
         SizeToContent="Height"
@@ -30,6 +30,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Label Content="Фамилия:"/>
@@ -57,7 +58,7 @@
                   DisplayMemberPath="Name"
                   SelectedItem="{Binding Department}"/>
         <Button Grid.Column="1"
-                Grid.Row="6"
+                Grid.Row="7"
                 Content="Сохранить"
                 HorizontalAlignment="Right"
                 Command="{Binding SaveEmployeeCommand}" Click="Button_Click"

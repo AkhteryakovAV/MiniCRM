@@ -7,7 +7,7 @@
         xmlns:vm="clr-namespace:MiniCRM.PresentationLogic.ViewModels;assembly=MiniCRM.PresentationLogic"
         d:DataContext="{d:DesignInstance IsDesignTimeCreatable=False, Type={x:Type vm:CreateEditOrderViewModel}}"
         mc:Ignorable="d"
-        Title="Новый заказ" Width="350"
+        Title="Новый заказ" Width="350" MinWidth="350"
         Icon="{DynamicResource AppIcon}" 
         WindowStartupLocation="CenterScreen"
         SizeToContent="Height"
@@ -20,7 +20,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Label Content="Название товара:"/>
@@ -35,12 +35,17 @@
         <Expander Grid.Column="1" Grid.Row="2" 
                   Header="Выберите теги"
                   >
-            <ListBox 
-                     ItemsSource="{Binding Tags}" 
-                     SelectionMode="Extended" 
+            <ListBox ItemsSource="{Binding Tags}" 
                      Margin="3"
-                     HorizontalContentAlignment="Stretch"
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
                      >
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal"
+                                   HorizontalAlignment="Left"
+                                   />
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <CheckBox IsChecked="{Binding IsSelected}"
@@ -48,7 +53,7 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            
+
         </Expander>
         <Button Grid.Column="1"
                 Grid.Row="3"

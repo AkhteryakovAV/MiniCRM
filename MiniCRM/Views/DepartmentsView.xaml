@@ -7,7 +7,7 @@
         xmlns:vm="clr-namespace:MiniCRM.PresentationLogic.ViewModels;assembly=MiniCRM.PresentationLogic"
         d:DataContext="{d:DesignInstance Type=vm:DepartmentsViewModel, IsDesignTimeCreatable=False}"
         mc:Ignorable="d"
-        Title="Подразделения" Height="500" Width="350"
+        Title="Подразделения" Height="500" Width="350" MinWidth="350"
         Icon="{DynamicResource AppIcon}" WindowStartupLocation="CenterScreen"
         >
     <Window.Resources>

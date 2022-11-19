@@ -9,7 +9,7 @@
         xmlns:converters="clr-namespace:MiniCRM.Converters"
         d:DataContext="{d:DesignInstance Type=vm:MainViewModel, IsDesignTimeCreatable=False}"
         mc:Ignorable="d"
-        Title="CRM" Height="450" Width="350" MinWidth="350"
+        Title="CRM" Height="650" Width="550" MinWidth="350"
         Icon="{DynamicResource AppIcon}" WindowStartupLocation="CenterScreen"
         >
     <Window.Resources>

@@ -18,7 +18,9 @@ namespace MiniCRM.PresentationLogic.ViewModels
         private readonly IDialogService _dialogService;
         private Order _order;
         private RelayCommand _saveOrderCommand;
+        private RelayCommand _createTagCommand;
         private bool _editMode;
+        private string newTagName;
 
         public CreateEditOrderViewModel(IRepository<Order> ordersRepository,
                                         IRepository<Tag> tagRepository,
@@ -58,7 +60,6 @@ namespace MiniCRM.PresentationLogic.ViewModels
         }
 
         public event EventHandler<OrderEventArgs> OrderAdded;
-
         public NotifyCollection<Employee> Employees { get; set; }
         public NotifyCollection<TagComboBoxItem> Tags { get; set; }
         public string Product
@@ -96,6 +97,22 @@ namespace MiniCRM.PresentationLogic.ViewModels
                 _dialogService.ShowMessageInformation("Укажите сотрудника");
             }
         }));
+        public RelayCommand CreateTagCommand => _createTagCommand ?? (_createTagCommand = new RelayCommand(args =>
+        {
+            Tag tag = new Tag() { Id = Guid.NewGuid(), Name = NewTagName };
+            _tagRepository.Add(tag);
+            Tags.Add(new TagComboBoxItem(tag));
+            NewTagName = string.Empty;
+        }, args => !string.IsNullOrEmpty(NewTagName)));
+
+        public string NewTagName
+        {
+            get => newTagName; set
+            {
+                newTagName = value;
+                OnPropertyChanged();
+            }
+        }
 
     }
 

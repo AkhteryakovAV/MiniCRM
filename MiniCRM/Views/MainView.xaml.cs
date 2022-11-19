@@ -13,5 +13,6 @@ namespace MiniCRM.Views
             InitializeComponent();
             DataContext = viewModel;
         }
+
     }
 }

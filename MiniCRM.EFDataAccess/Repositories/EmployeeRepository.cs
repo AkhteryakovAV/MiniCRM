@@ -7,7 +7,7 @@ namespace MiniCRM.EFDataAccess.Repositories
 {
     public class EmployeeRepository : BaseRepository<Employee>
     {
-        public EmployeeRepository(MainContext context):base(context)
+        public EmployeeRepository(MainContext context) : base(context)
         { }
 
         public override Employee[] GetAll()

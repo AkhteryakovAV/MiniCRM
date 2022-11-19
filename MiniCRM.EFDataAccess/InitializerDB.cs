@@ -1,6 +1,7 @@
 ﻿using MiniCRM.Domain.Enums;
 using MiniCRM.Domain.Models;
 using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 
 namespace MiniCRM.EFDataAccess
@@ -32,7 +33,7 @@ namespace MiniCRM.EFDataAccess
             Employee employee1 = new Employee()
             {
                 Id = Guid.NewGuid(),
-                Surname = "Иванова",
+                Surname = "Сидорова",
                 Name = "Елена",
                 MiddleName = "Владимировна",
                 Birthday = new DateTime(2000, 3, 15),
@@ -43,24 +44,45 @@ namespace MiniCRM.EFDataAccess
             Tag tag1 = new Tag()
             {
                 Id = Guid.NewGuid(),
-                Name = "Рубашки",
+                Name = "Тег 1",
             };
             Tag tag2 = new Tag()
             {
                 Id = Guid.NewGuid(),
-                Name = "Одежда",
+                Name = "Тег 2",
             };
             Tag tag3 = new Tag()
             {
                 Id = Guid.NewGuid(),
-                Name = "Обувь",
+                Name = "Тег 3",
             };
             Tag tag4 = new Tag()
             {
                 Id = Guid.NewGuid(),
-                Name = "Шапки",
+                Name = "Тег 4",
             };
 
+            Order order = new Order()
+            {
+                Id = Guid.NewGuid(),
+                EmployeeId = employee1.Id,
+                Product = "Заказ 1",
+                Tags = new List<Tag>() { tag1, tag2 }
+            };
+            Order order1 = new Order()
+            {
+                Id = Guid.NewGuid(),
+                EmployeeId = employee1.Id,
+                Product = "Заказ 2",
+                Tags = new List<Tag>() { tag3, tag2, tag4 }
+            };
+            Order order2 = new Order()
+            {
+                Id = Guid.NewGuid(),
+                EmployeeId = chiefId,
+                Product = "Заказ 3",
+                Tags = new List<Tag>() { tag3, tag4 }
+            };
 
             _db.Departments.Add(department);
             _db.SaveChanges();
@@ -70,7 +92,8 @@ namespace MiniCRM.EFDataAccess
             _db.SaveChanges();
             _db.Tags.AddRange(new Tag[] { tag1, tag2, tag3, tag4 });
             _db.SaveChanges();
-
+            _db.Orders.AddRange(new Order[] { order, order1, order2 });
+            _db.SaveChanges();
         }
 
     }

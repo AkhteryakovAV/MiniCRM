@@ -28,8 +28,10 @@ namespace MiniCRM.PresentationLogic.ViewModels
             _employeeRepository = employeeRepository ?? throw new ArgumentNullException(nameof(employeeRepository));
             _dialogService = dialogService ?? throw new ArgumentNullException(nameof(dialogService));
 
-            Employees = new NotifyCollection<Employee>(_employeeRepository.GetAll());
+            Employees = new NotifyCollection<Employee>(_employeeRepository.GetAll().OrderBy(e=>e.Surname));
         }
+
+        public event EventHandler<EmployeeEventArgs> EmployeeDeleted;
 
         public NotifyCollection<Employee> Employees { get; set; }
 
@@ -43,10 +45,11 @@ namespace MiniCRM.PresentationLogic.ViewModels
         {
             if (parametr is Employee employee)
             {
-                if (_dialogService.ShowMessageQuestion("Удалить сотрудника?") == MessageBoxResult.Yes)
+                if (_dialogService.ShowMessageQuestion("Удалить сотрудника? Также будут удалены заказы, выполненные этим сотрудником.") == MessageBoxResult.Yes)
                 {
                     _employeeRepository.Delete(employee.Id);
                     Employees.Remove(employee);
+                    EmployeeDeleted?.Invoke(this, new EmployeeEventArgs(employee));
                 }
             }
         }));

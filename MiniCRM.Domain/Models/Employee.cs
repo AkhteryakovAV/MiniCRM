@@ -1,5 +1,6 @@
 ﻿using MiniCRM.Domain.Enums;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
@@ -14,6 +15,11 @@ namespace MiniCRM.Domain.Models
         private Gender gender;
         private Guid? departmentId;
         private Department department;
+
+        public Employee()
+        {
+            Orders = new List<Order>();
+        }
 
         public Guid Id { get; set; }
         public string Surname
@@ -117,6 +123,8 @@ namespace MiniCRM.Domain.Models
                 return result;
             }
         }
+        public List<Order> Orders { get; set; }
+
 
         public bool Equals(Employee other)
         {

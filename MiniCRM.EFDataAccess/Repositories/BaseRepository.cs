@@ -25,8 +25,12 @@ namespace MiniCRM.EFDataAccess.Repositories
 
         public virtual void Delete(Guid id)
         {
-            _ = entities.Remove(GetById(id));
-            _ = _context.SaveChanges();
+            TModel entity = GetById(id);
+            if (entity != null)
+            {
+                _ = entities.Remove(entity);
+                _ = _context.SaveChanges();
+            }
         }
 
         public abstract TModel[] GetAll();

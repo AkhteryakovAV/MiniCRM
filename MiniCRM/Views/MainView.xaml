@@ -5,11 +5,21 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MiniCRM.Views"
         xmlns:vm="clr-namespace:MiniCRM.PresentationLogic.ViewModels;assembly=MiniCRM.PresentationLogic"
+        xmlns:m="clr-namespace:MiniCRM.Domain.Models;assembly=MiniCRM.Domain"
+        xmlns:converters="clr-namespace:MiniCRM.Converters"
         d:DataContext="{d:DesignInstance Type=vm:MainViewModel, IsDesignTimeCreatable=False}"
         mc:Ignorable="d"
         Title="CRM" Height="450" Width="350" MinWidth="350"
         Icon="{DynamicResource AppIcon}" WindowStartupLocation="CenterScreen"
         >
+    <Window.Resources>
+        <ResourceDictionary>
+        <converters:IEnumerableTagToTextConverter x:Key="IEnumerableToTextConverter"/> 
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Templates/OrderProductNameCellTemplate.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <DockPanel LastChildFill="True">
         <StackPanel DockPanel.Dock="Top" 
                     Orientation="Horizontal"
@@ -28,11 +38,22 @@
         <DataGrid ItemsSource="{Binding Orders}"
                   AutoGenerateColumns="False"
                   BorderThickness="0,1,0,0"
+                  VerticalContentAlignment="Center"
+                  RowHeight="21"
+                  GridLinesVisibility="Horizontal"
+                  HorizontalGridLinesBrush="Gray"
+                  IsReadOnly="True"
                   >
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Название"/>
-                <DataGridTextColumn Header="Сотрудник"/>
-                <DataGridTextColumn Header="Тэги" Width="*"/>
+                <DataGridTemplateColumn Header="Название"
+                                        CellTemplate="{StaticResource OrderProductNameCellTemplate}"
+                                        />
+                <DataGridTextColumn Header="Сотрудник"
+                                    Binding="{Binding Employee.AbbreviatedName}"
+                                    />
+                <DataGridTextColumn Header="Тэги"
+                                    Width="*"
+                                    Binding="{Binding Tags, Converter={StaticResource IEnumerableToTextConverter}}"/>
             </DataGrid.Columns>
         </DataGrid>
     </DockPanel>

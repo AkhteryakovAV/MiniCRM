@@ -68,6 +68,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converters\GenderToTextConverter.cs" />
+    <Compile Include="Converters\IEnumerableTagToTextConverter.cs" />
     <Compile Include="MarkupExtensions\EnumValues.cs" />
     <Compile Include="Services\DialogService.cs" />
     <Compile Include="Views\CreateEditDepartmentView.xaml.cs">
@@ -75,6 +76,9 @@
     </Compile>
     <Compile Include="Views\CreateEditEmployeeView.xaml.cs">
       <DependentUpon>CreateEditEmployeeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CreateEditOrderView.xaml.cs">
+      <DependentUpon>CreateEditOrderView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\DepartmentsView.xaml.cs">
       <DependentUpon>DepartmentsView.xaml</DependentUpon>
@@ -84,9 +88,6 @@
     </Compile>
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\NewOrderView.xaml.cs">
-      <DependentUpon>NewOrderView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SplashScreen.xaml.cs">
       <DependentUpon>SplashScreen.xaml</DependentUpon>
@@ -107,11 +108,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Templates\OrderProductNameCellTemplate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\CreateEditDepartmentView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CreateEditEmployeeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CreateEditOrderView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -124,10 +133,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MainView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\NewOrderView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

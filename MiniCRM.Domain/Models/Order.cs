@@ -8,6 +8,7 @@ namespace MiniCRM.Domain.Models
         private string product;
         private Guid employeeId;
         private Employee employee;
+        private List<Tag> tags;
 
         public Order()
         {
@@ -39,7 +40,14 @@ namespace MiniCRM.Domain.Models
                 OnPropertyChanged();
             }
         }
-        public List<Tag> Tags { get; set; }
+        public List<Tag> Tags
+        {
+            get => tags; set
+            {
+                tags = value;
+                OnPropertyChanged();
+            }
+        }
 
         public bool Equals(Order other)
         {
@@ -52,7 +60,7 @@ namespace MiniCRM.Domain.Models
                 return false;
             if (ReferenceEquals(this, obj))
                 return true;
-            return Equals((Tag)obj);
+            return Equals((Order)obj);
         }
 
         public override int GetHashCode()

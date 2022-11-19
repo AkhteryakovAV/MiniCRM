@@ -45,6 +45,7 @@
     <Compile Include="Enums\Gender.cs" />
     <Compile Include="Events\DepartmentEventArgs.cs" />
     <Compile Include="Events\EmployeeEventArgs.cs" />
+    <Compile Include="Events\OrderEventArgs.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="Models\Department.cs" />
     <Compile Include="Models\Employee.cs" />
